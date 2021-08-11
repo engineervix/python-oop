@@ -57,3 +57,11 @@ class SalesPerson(CommissionEmployee):
 class FactoryWorker(HourlyEmployee):
     def work(self, hours: int):
         print(f"{self.name} operates machinery and tools for {hours} hours.")
+
+
+class TemporarySecretary(Secretary, HourlyEmployee):
+    def __init__(self, id: int, name: str, hours_worked: int, hour_rate: int) -> None:
+        HourlyEmployee.__init__(self, id, name, hours_worked, hour_rate)
+
+    def calculate_payroll(self):
+        return HourlyEmployee.calculate_payroll(self)
