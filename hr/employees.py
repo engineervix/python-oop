@@ -31,3 +31,29 @@ class CommissionEmployee(SalaryEmployee):
     def calculate_payroll(self):
         fixed = super().calculate_payroll()
         return fixed + self.commission
+
+
+class Manager(SalaryEmployee):
+    def work(self, hours: int):
+        print(
+            f"{self.name} plans, organizes, directs and controls resources for {hours} hours."
+        )
+
+
+class Secretary(SalaryEmployee):
+    def work(self, hours: int):
+        print(
+            f"{self.name} maintains effective records and carries out administrative tasks for {hours} hours."
+        )
+
+
+class SalesPerson(CommissionEmployee):
+    def work(self, hours: int):
+        print(
+            f"{self.name} sells retail products, goods and services to customers for {hours} hours."
+        )
+
+
+class FactoryWorker(HourlyEmployee):
+    def work(self, hours: int):
+        print(f"{self.name} operates machinery and tools for {hours} hours.")
