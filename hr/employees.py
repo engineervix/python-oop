@@ -6,6 +6,7 @@ class Employee:
     def __init__(self, id: int, name: str) -> None:
         self.id = id
         self.name = name
+        self.address = None
 
 
 class Manager(Employee, ManagerRole, SalaryPolicy):

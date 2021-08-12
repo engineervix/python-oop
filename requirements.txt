@@ -1,3 +1,6 @@
-# dev
+# dev tools
 black==21.7b0
 flake8==3.9.2
+
+# fake data for testing
+faker==8.11.0
