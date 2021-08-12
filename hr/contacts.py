@@ -1,4 +1,54 @@
+from faker import Faker
 from typing import List
+
+fake = Faker(["en_US", "en_GB", "en_IE"])
+
+
+class AddressBook:
+    def __init__(self) -> None:
+        self._employee_addresses = {
+            1: Address(
+                fake.street_address(),
+                fake.city(),
+                fake.state(),
+                fake.postcode(),
+                # fake.secondary_address()
+            ),
+            2: Address(
+                fake.street_address(),
+                fake.city(),
+                fake.state(),
+                fake.postcode(),
+                # fake.secondary_address()
+            ),
+            3: Address(
+                fake.street_address(),
+                fake.city(),
+                fake.state(),
+                fake.postcode(),
+                fake.secondary_address(),
+            ),
+            4: Address(
+                fake.street_address(),
+                fake.city(),
+                fake.state(),
+                fake.postcode(),
+                # fake.secondary_address()
+            ),
+            5: Address(
+                fake.street_address(),
+                fake.city(),
+                fake.state(),
+                fake.postcode(),
+                # fake.secondary_address()
+            ),
+        }
+
+    def get_employee_address(self, employee_id):
+        address = self._employee_addresses.get(employee_id)
+        if not address:
+            raise ValueError(employee_id)
+        return address
 
 
 class Address:
