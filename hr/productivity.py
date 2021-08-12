@@ -1,7 +1,7 @@
 from typing import List
 
 
-class ProductivitySystem:
+class _ProductivitySystem:
     def __init__(self) -> None:
         self._roles = {
             "manager": ManagerRole,
@@ -44,3 +44,14 @@ class SalesRole:
 class FactoryRole:
     def work(self, hours: int):
         return f"operates machinery and tools for {hours} hours."
+
+
+_productivity_system = _ProductivitySystem()
+
+
+def get_role(role_id):
+    return _productivity_system.get_role(role_id)
+
+
+def track(employees, hours):
+    return _productivity_system.track(employees, hours)

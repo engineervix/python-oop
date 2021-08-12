@@ -1,52 +1,51 @@
 from faker import Faker
 
-from hr.contacts import AddressBook
-from hr.hr import PayrollSystem
-from hr.productivity import ProductivitySystem
+from hr.contacts import get_employee_address
+from hr.hr import get_policy
+from hr.productivity import get_role
 from hr.representations import AsDictionaryMixin
 
 fake = Faker(["en_US", "en_GB", "en_IE"])
 
 
-class EmployeeDatabase:
+class _EmployeeDatabase:
     def __init__(self) -> None:
-        self._employees = [
-            {"id": 1, "name": fake.name(), "role": "manager"},
-            {"id": 2, "name": fake.name(), "role": "secretary"},
-            {"id": 3, "name": fake.name(), "role": "sales"},
-            {"id": 4, "name": fake.name(), "role": "factory"},
-            {"id": 5, "name": fake.name(), "role": "secretary"},
-        ]
-        self.productivity = ProductivitySystem()
-        self.payroll = PayrollSystem()
-        self.employee_addresses = AddressBook()
+        self._employees = {
+            1: {"name": fake.name(), "role": "manager"},
+            2: {"name": fake.name(), "role": "secretary"},
+            3: {"name": fake.name(), "role": "sales"},
+            4: {"name": fake.name(), "role": "factory"},
+            5: {"name": fake.name(), "role": "secretary"},
+        }
 
     def employees(self):
-        return [self._create_employee(**data) for data in self._employees]
+        return [Employee(id_) for id_ in sorted(self._employees)]
 
-    def _create_employee(self, id, name, role):
-        address = self.employee_addresses.get_employee_address(id)
-        employee_role = self.productivity.get_role(role)
-        payroll_policy = self.payroll.get_policy(id)
-        return Employee(id, name, address, employee_role, payroll_policy)
+    def get_employee_info(self, employee_id):
+        info = self._employees.get(employee_id)
+        if not info:
+            raise ValueError("invalid employee_id")
+        return info
 
 
 class Employee(AsDictionaryMixin):
-    def __init__(
-        self, id: int, name: str, address: str, role: str, payroll: PayrollSystem
-    ) -> None:
+    def __init__(self, id: int) -> None:
         self.id = id
-        self.name = name
-        self.address = address
-        self._role = role
-        self._payroll = payroll
+        info = employee_database.get_employee_info(self.id)
+        self.name = info.get("name")
+        self.address = get_employee_address(self.id)
+        self._role = get_role(info.get("role"))
+        self._payroll = get_policy(self.id)
 
     def work(self, hours):
-        duties = self.role.work(hours)
+        duties = self._role.work(hours)
         print(f"Employee {self.id} - {self.name}:")
         print(f"- {duties}")
         print("")
-        self.payroll.track_work(hours)
+        self._payroll.track_work(hours)
 
     def calculate_payroll(self):
-        return self.payroll.calculate_payroll()
+        return self._payroll.calculate_payroll()
+
+
+employee_database = _EmployeeDatabase()

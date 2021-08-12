@@ -6,7 +6,7 @@ from hr.representations import AsDictionaryMixin
 fake = Faker(["en_US", "en_GB", "en_IE"])
 
 
-class AddressBook:
+class _AddressBook:
     def __init__(self) -> None:
         self._employee_addresses = {
             1: Address(
@@ -70,3 +70,10 @@ class Address(AsDictionaryMixin):
         lines.append(f"{self.city}, {self.state}, {self.zip_code}")
 
         return "\n".join(lines)
+
+
+_address_book = _AddressBook()
+
+
+def get_employee_address(employee_id):
+    return _address_book.get_employee_address(employee_id)
