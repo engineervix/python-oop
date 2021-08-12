@@ -1,6 +1,8 @@
 from faker import Faker
 from typing import List
 
+from hr.representations import AsDictionaryMixin
+
 fake = Faker(["en_US", "en_GB", "en_IE"])
 
 
@@ -51,7 +53,7 @@ class AddressBook:
         return address
 
 
-class Address:
+class Address(AsDictionaryMixin):
     def __init__(
         self, street: str, city: str, state: str, zip_code: str, street2: int = ""
     ) -> None:

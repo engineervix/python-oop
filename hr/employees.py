@@ -3,6 +3,7 @@ from faker import Faker
 from hr.contacts import AddressBook
 from hr.hr import PayrollSystem
 from hr.productivity import ProductivitySystem
+from hr.representations import AsDictionaryMixin
 
 fake = Faker(["en_US", "en_GB", "en_IE"])
 
@@ -30,15 +31,15 @@ class EmployeeDatabase:
         return Employee(id, name, address, employee_role, payroll_policy)
 
 
-class Employee:
+class Employee(AsDictionaryMixin):
     def __init__(
         self, id: int, name: str, address: str, role: str, payroll: PayrollSystem
     ) -> None:
         self.id = id
         self.name = name
         self.address = address
-        self.role = role
-        self.payroll = payroll
+        self._role = role
+        self._payroll = payroll
 
     def work(self, hours):
         duties = self.role.work(hours)
