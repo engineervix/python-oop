@@ -55,7 +55,7 @@ class _AddressBook:
 
 class Address(AsDictionaryMixin):
     def __init__(
-        self, street: str, city: str, state: str, zip_code: str, street2: int = ""
+        self, street: str, city: str, state: str, zip_code: str, street2: str = ""
     ) -> None:
         self.street = street
         self.street2 = street2
